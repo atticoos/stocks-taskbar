@@ -5,6 +5,8 @@ import fetch from 'node-fetch';
 import Promise from 'bluebird';
 fetch.promise = Promise;
 
+// rate limits apply
+// try http://stackoverflow.com/questions/13458132/json-formatted-stock-quote-api-live-or-historical
 const BASE_URL = 'http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=';
 
 const symbols = [

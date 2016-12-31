@@ -21,7 +21,7 @@ export function buildTray () {
 
 function buildStockMenu (stocks) {
   var menuItems = stocks.map(stock => ({
-    label: stock.Symbol + ' ' + stock.ChangePercent,
+    label: stock.Symbol + ' ' + stock.ChangePercent.toFixed(2),
     type: 'normal'
   }));
   return Menu.buildFromTemplate(menuItems);
