@@ -1,0 +1,19 @@
+{
+  "name": "stock-taskbar",
+  "version": "0.1.0",
+  "description": "A taskbar application showing stock symbols",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajwhite/stocks-taskbar.git"
+  },
+  "author": "Atticus White <contact@atticuswhite.com> (http://atticuswhite.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ajwhite/stocks-taskbar/issues"
+  },
+  "homepage": "https://github.com/ajwhite/stocks-taskbar#readme"
+}
