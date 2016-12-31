@@ -13,8 +13,8 @@ var mockData = [
 export function buildTray () {
   console.log('building tray')
   var icon = path.normalize(path.join(__dirname, 'icon.png'));
-  //var tray = new Tray(icon);
-  var tray = new Tray(createTickerImage(generateTickerText(mockData)));
+  var tray = new Tray(icon);
+  //var tray = new Tray(createTickerImage(generateTickerText(mockData)));
   tray.setToolTip('Stock Ticker');
 
   tray.setContextMenu(buildStockMenu(mockData));
@@ -44,7 +44,7 @@ function rotateTrayIcon (tray, mockData) {
   var text = generateTickerText(mockData);
   var frames = [];
   for (let i = 0; i < 202; i++) {
-    frames.push(createTickerImage(text, i));
+    frames.push(createTickerImage(mockData, i));
   }
 
   var interval = setInterval(() => {
