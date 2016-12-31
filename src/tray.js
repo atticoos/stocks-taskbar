@@ -42,15 +42,20 @@ function generateTickerText (quotes) {
 function rotateTrayIcon (tray, mockData) {
   var position = 0;
   var text = generateTickerText(mockData);
+  var frames = [];
+  for (let i = 0; i < 202; i++) {
+    frames.push(createTickerImage(text, i));
+  }
 
   var interval = setInterval(() => {
-    position += 10;
-    tray.setImage(createTickerImage(text, position));
-    
+    position += 1;
+    //tray.setImage(createTickerImage(text, position));
+    tray.setImage(frames[position]);
+
     if (position > 200) {
       position = 0;
     }
-  }, 200);
+  }, 40);
 }
 
 function buildStockMenu (stocks) {
