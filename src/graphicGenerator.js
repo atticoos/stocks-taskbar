@@ -3,7 +3,7 @@ import {nativeImage} from 'electron';
 
 const font = '12px Helvetica';
 const SPACE = 5;
-const TRI = 5;
+const TRI = 8;
 
 function measureText (text) {
   var canvas = new Canvas();
@@ -15,8 +15,11 @@ function measureText (text) {
 function createCanvasFromData (quotes) {
   console.log('wtf', quotes)
   var measurements = quotes.map(quote => {
+    var percent = Math.abs(quote.ChangePercent).toFixed(2) + '%';
+    percent = (quote.ChangePercent > 0 ? '+' : '-') + percent;
     var symbolSize = measureText(quote.Symbol).width;
-    var percentSize = measureText(Math.abs(quote.ChangePercent).toFixed(2)).width;
+    var percentSize = measureText(percent).width;
+    //var percentSize = measureText(Math.abs(quote.ChangePercent).toFixed(2) + '%').width;
 
     return {
       symbol: {
@@ -24,7 +27,8 @@ function createCanvasFromData (quotes) {
         size: symbolSize
       },
       percent: {
-        value: Math.abs(quote.ChangePercent),
+        //value: Math.abs(quote.ChangePercent),
+        value: percent,
         size: percentSize
       },
       up: quote.ChangePercent >= 0
@@ -32,7 +36,7 @@ function createCanvasFromData (quotes) {
   });
 
   var totalSize = measurements.reduce((total, item) => {
-    var itemTotal = item.symbol.size + SPACE + TRI + SPACE + item.percent.size + SPACE;
+    var itemTotal = item.symbol.size + SPACE + TRI + SPACE + item.percent.size + SPACE + SPACE;
     return total + itemTotal;
   }, 0);
 
@@ -44,21 +48,46 @@ function createCanvasFromData (quotes) {
 
   var offset = 0;
   measurements.forEach(item => {
-    ctx.fillText(item.symbol.value, offset, 15);
+    drawText(ctx, item.symbol.value, offset);
 
     offset += item.symbol.size + SPACE;
 
-    ctx.fillText('^', offset, 15);
+    drawDirection(ctx, offset, item.up);
 
     offset += TRI + SPACE;
 
-    ctx.fillText(item.percent.value.toFixed(2), offset, 15);
+    drawText(ctx, item.percent.value, offset);
 
-    offset += item.percent.size + SPACE;
+    offset += item.percent.size + SPACE + SPACE;
     console.log('buliding at', offset)
   });
 
   return canvas;
+}
+
+function drawText (ctx, text, position) {
+  ctx.fillStyle = 'black';
+  ctx.fillText(text, position, 15);
+}
+
+function drawDirection (ctx, position, up) {
+  ctx.fillStyle = up ? 'green' : 'red';
+
+  var verticalTop = up ? 7 : 13;
+  var verticalBot = up ? 13 : 7;
+
+  var delta = 4;
+  var horizontalLeft = position;
+  var horizontalMid = horizontalLeft + delta;
+  var horizontalRight = horizontalMid + delta;
+
+  ctx.beginPath();
+  ctx.moveTo(horizontalLeft, verticalBot);
+  ctx.lineTo(horizontalMid, verticalTop);
+  ctx.lineTo(horizontalRight, verticalBot);
+  ctx.lineTo(horizontalLeft, verticalBot);
+  ctx.closePath();
+  ctx.fill();
 }
 
 export function createTextCanvas (text) {
