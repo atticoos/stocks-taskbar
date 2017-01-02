@@ -10,7 +10,8 @@ export default class StockListItem extends React.Component {
         </div>
         {!!this.props.stock.quote &&
           <div>
-            Change: {this.props.stock.quote.ChangePercent}
+            <div>Change: {this.props.stock.quote.ChangePercent}</div>
+            <div>Price: ${this.props.stock.quote.Price}</div>
           </div>
         }
       </div>

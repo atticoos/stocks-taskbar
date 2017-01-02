@@ -11,10 +11,10 @@ const FRAME_CHUNK_SIZE = 20;
 const FPS = 40;
 
 var mockData = [
-  {Symbol: 'AAPL', ChangePercent: 3.02},
-  {Symbol: 'TSLA', ChangePercent: 1.26},
-  {Symbol: 'NVDA', ChangePercent: -5.32},
-  {Symbol: 'AMD', ChangePercent: -2.45}
+  {Symbol: 'AAPL', ChangePercent: 3.02, Price: 115.82},
+  {Symbol: 'TSLA', ChangePercent: 1.26, Price: 108.23},
+  {Symbol: 'NVDA', ChangePercent: -5.32, Price: 102.19},
+  {Symbol: 'AMD', ChangePercent: -2.45, Price: 11.74}
 ];
 
 export function buildTray (menubar) {
@@ -45,7 +45,8 @@ export function buildTray (menubar) {
       case ActionTypes.ADD_STOCK_SYMBOL:
         var mockItem = {
           Symbol: action.symbol,
-          ChangePercent: (Math.random() * 10).toFixed(2)
+          ChangePercent: (Math.random() * 10).toFixed(2),
+          Price: (Math.random() * 100).toFixed(2)
         };
         mockData.push(mockItem);
         generateFrames(mockData).then(frames => animateFrames(frames));
