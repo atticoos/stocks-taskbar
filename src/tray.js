@@ -10,14 +10,12 @@ var mockData = [
   {Symbol: 'AMD', ChangePercent: -2.45}
 ];
 
-export function buildTray () {
+export function buildTray (tray) {
   console.log('building tray')
   var icon = path.normalize(path.join(__dirname, 'icon.png'));
-  var tray = new Tray(icon);
-  //var tray = new Tray(createTickerImage(generateTickerText(mockData)));
   tray.setToolTip('Stock Ticker');
 
-  tray.setContextMenu(buildStockMenu(mockData));
+  //tray.setContextMenu(buildStockMenu(mockData));
 
   /*
   stockSource.subscribe(

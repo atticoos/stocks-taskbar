@@ -1,7 +1,8 @@
-import {app, Menu, Tray} from 'electron';
+import menubar from 'menubar';
 import {buildTray} from './tray';
-require('electron-debug')();
 
-app.on('ready', () => {
-  buildTray()
+var mb = menubar();
+
+mb.on('ready', () => {
+  buildTray(mb.tray);
 });
