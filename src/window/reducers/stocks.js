@@ -5,7 +5,10 @@ const initialState = ['AAPL', 'TSLA', 'NVDA', 'AMD'];
 export default function stocksReducer (stocks = initialState, action = {}) {
   switch (action.type) {
     case Types.ADD_STOCK_SYMBOL:
-      return stocks.concat(action.symbol.toUpperCase());
+      if (stocks.indexOf(action.symbol) === -1) {
+        return stocks.concat(action.symbol);
+      }
+      return stocks;
     case Types.REMOVE_STOCK_SYMBOL:
       let index = stocks.indexOf(action.symbol);
       // stock doesn't exist, don't do anything

@@ -10,5 +10,5 @@ var mb = menubar({
 });
 
 mb.on('ready', () => {
-  buildTray(mb.tray);
+  buildTray(mb);
 });

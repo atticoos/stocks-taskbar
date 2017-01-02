@@ -16,13 +16,18 @@ var mockData = [
   {Symbol: 'AMD', ChangePercent: -2.45}
 ];
 
-export function buildTray (tray) {
+export function buildTray (menubar) {
+  const {tray} = menubar;
   var animateFrames = createTrayFrameAnimator(tray, FPS);
 
   var icon = path.normalize(path.join(__dirname, 'icon.png'));
   tray.setToolTip('Stock Ticker');
 
   generateFrames(mockData).then(frames => animateFrames(frames));
+
+  menubar.on('after-create-window', () => {
+    menubar.window.quotes = mockData;
+  });
 
   /*
   stockSource.subscribe(

@@ -20,3 +20,10 @@ export function newStockTextChanged (text) {
     text
   };
 }
+
+export function quoteData (quotes) {
+  return {
+    type: Types.QUOTE_DATA,
+    quotes
+  };
+}

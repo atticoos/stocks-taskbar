@@ -1,6 +1,7 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import selector from '../selectors/stockScreen';
 import StockListItem from '../components/stockListItem';
 import * as StockActions from '../actions/stocks';
 
@@ -8,10 +9,10 @@ class Stocks extends React.Component {
   render () {
     return (
       <div className="stocks">
-        {this.props.stocks.map(stock => (
+        {this.props.quotes.map(quote => (
           <StockListItem
-            key={stock}
-            stock={stock}
+            key={quote.symbol}
+            stock={quote}
             onRemove={() => this.props.stockActions.removeStock(stock)}
           />
         ))}
@@ -34,11 +35,6 @@ class Stocks extends React.Component {
 
 const actions = dispatch => ({
   stockActions: bindActionCreators(StockActions, dispatch)
-});
-
-const selector = state => ({
-  stocks: state.stocks,
-  newStock: state.newStock
 });
 
 export default connect(selector, actions)(Stocks);
