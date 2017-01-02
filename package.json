@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "electron src/",
+    "rebuild": "npm rebuild --runtime=electron --target=1.4.13 --disturl=https://atom.io/download/atom-shell --abi=48",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +29,7 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
+    "canvas": "^1.6.2",
     "node-fetch": "^1.6.3",
     "rx": "^4.1.0"
   }
