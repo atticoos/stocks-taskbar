@@ -1,0 +1,26 @@
+.stocks {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .list {
+    flex: 1;
+    overflow-y: scroll;
+  }
+
+  .controls {
+    /*height: 50px;*/
+    background-color: 'gray';
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    input {
+      /*flex: 1;*/
+      border-radius: 0;
+      border-right: none;
+    }
+    button {
+      border-radius: 0;
+    }
+  }
+}

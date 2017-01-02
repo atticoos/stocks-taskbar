@@ -1,5 +1,25 @@
 .stock-list-item {
-  h2 {
-    display: inline-block;
+  border-bottom: 1px solid gray;
+  padding: 5px 10px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .row-heading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .meta {
+    font-size: 12px;
+    span {
+      display: inline-block;
+    }
+    .item-label {
+      margin-right: 4px;
+    }
   }
 }

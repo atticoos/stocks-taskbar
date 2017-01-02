@@ -76,14 +76,14 @@ function generateFrames (mockData) {
       if (frames.length >= MAX_FRAMES) {
         return resolve(frames);
       }
-      setImmediate(() => {
+      setTimeout(() => {
         var frameChunks = [];
         console.log('building batch', frames.length);
         for (let i = 0; i < FRAME_CHUNK_SIZE; i++) {
           frameChunks.push(createTickerImage(mockData, frames.length + i));
         }
         recurse(frames.concat(frameChunks));
-      });
+      }, 10);
     }
     recurse();
   });
