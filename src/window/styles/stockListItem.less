@@ -1,25 +1,45 @@
 .stock-list-item {
   border-bottom: 1px solid gray;
-  padding: 5px 10px;
-
-  &:last-child {
-    border-bottom: none;
-  }
+  padding: 15px;
 
   .row-heading {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-  }
 
-  .meta {
-    font-size: 12px;
-    span {
-      display: inline-block;
-    }
-    .item-label {
-      margin-right: 4px;
+    h3 {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      margin: 0;
+
+      .stock-symbol {
+        flex: 1;
+        align-items: center;
+      }
+
+      .stock-quote {
+        margin-left: 10px;
+        flex-direction: row;
+        align-items: center;
+        display: flex;
+        font-size: 20px;
+
+        .label {
+          display: flex;
+          width: 80px;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px;
+        }
+
+        span {
+          margin: 0 5px;
+        }
+      }
     }
   }
 }
+

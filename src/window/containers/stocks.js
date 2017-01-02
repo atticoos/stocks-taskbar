@@ -4,7 +4,11 @@ import {connect} from 'react-redux';
 import selector from '../selectors/stockScreen';
 import StockListItem from '../components/stockListItem';
 import * as StockActions from '../actions/stocks';
-import {Button, FormControl} from 'react-bootstrap';
+import {
+  Form,
+  FormControl,
+  FormGroup
+} from 'react-bootstrap';
 require('../styles/stocks.less');
 
 class Stocks extends React.Component {
@@ -21,17 +25,19 @@ class Stocks extends React.Component {
           ))}
         </div>
         <div className="controls">
+          <Form onSubmit={(e) => e.preventDefault() && this.props.stockActions.addStock(this.props.newStock)}>
           <FormControl
             type="text"
             placeholder="$SYMBOL"
             value={this.props.newStock}
             onChange={event => this.props.stockActions.newStockTextChanged(event.target.value)}
           />
-          <Button
+          <button
+            type="submit"
             onClick={() => this.props.stockActions.addStock(this.props.newStock)}
-          >
-            Add
-          </Button>
+            style={{display: 'none'}}
+          />
+        </Form>
         </div>
       </div>
     )

@@ -7,7 +7,7 @@ import * as ActionTypes from './window/actions/types';
 import * as StockActions from './window/actions/stocks';
 
 const MAX_FRAMES = 200;
-const FRAME_CHUNK_SIZE = 20;
+const FRAME_CHUNK_SIZE = 10;
 const FPS = 40;
 
 var mockData = [
@@ -43,11 +43,7 @@ export function buildTray (menubar) {
     console.log('action', action.type)
     switch (action.type) {
       case ActionTypes.ADD_STOCK_SYMBOL:
-        var mockItem = {
-          Symbol: action.symbol,
-          ChangePercent: (Math.random() * 10).toFixed(2),
-          Price: (Math.random() * 100).toFixed(2)
-        };
+        var mockItem = generateQuote(action.symbol);
         mockData.push(mockItem);
         generateFrames(mockData).then(frames => animateFrames(frames));
         event.sender.send('main-action', StockActions.quoteData(mockData));
@@ -68,6 +64,17 @@ export function buildTray (menubar) {
   });
 
   return tray;
+}
+
+function generateQuote (symbol) {
+  var percent = Math.random() * 10;
+  var price = Math.random() * 100;
+  percent = Math.random() < 0.5 ? -1 * percent : percent;
+  return {
+    Symbol: symbol,
+    ChangePercent: percent.toFixed(2),
+    Price: price.toFixed(2)
+  };
 }
 
 function generateFrames (mockData) {

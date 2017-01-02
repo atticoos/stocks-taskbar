@@ -17,7 +17,7 @@ export function removeStock (symbol) {
 export function newStockTextChanged (text) {
   return {
     type: Types.NEW_STOCK_SYMBOL_CHANGED,
-    text
+    text: text.replace(/[^a-zA-Z]/gi, '').toUpperCase()
   };
 }
 
