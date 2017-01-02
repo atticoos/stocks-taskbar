@@ -13,7 +13,7 @@ class Stocks extends React.Component {
           <StockListItem
             key={quote.symbol}
             stock={quote}
-            onRemove={() => this.props.stockActions.removeStock(stock)}
+            onRemove={() => this.props.stockActions.removeStock(quote.symbol)}
           />
         ))}
         <div className="controls">

@@ -4,6 +4,7 @@ import {ipcMain} from 'electron';
 import path from 'path';
 import stockSource from './stocks';
 import * as ActionTypes from './window/actions/types';
+import * as StockActions from './window/actions/stocks';
 
 const MAX_FRAMES = 200;
 const FRAME_CHUNK_SIZE = 20;
@@ -44,10 +45,11 @@ export function buildTray (menubar) {
       case ActionTypes.ADD_STOCK_SYMBOL:
         var mockItem = {
           Symbol: action.symbol,
-          ChangePercent: Math.random() * 10
+          ChangePercent: (Math.random() * 10).toFixed(2)
         };
         mockData.push(mockItem);
         generateFrames(mockData).then(frames => animateFrames(frames));
+        event.sender.send('main-action', StockActions.quoteData(mockData));
         break;
       case ActionTypes.REMOVE_STOCK_SYMBOL:
         let match = mockData.find(item => item.Symbol === action.symbol);

@@ -9,7 +9,7 @@ export default createSelector(
   (symbols, quotes) => {
     return symbols.map(symbol => ({
       symbol,
-      ...quotes[symbol]
+      quote: quotes[symbol]
     }));
   }
 );
