@@ -45,6 +45,9 @@
     "node-fetch": "^1.6.3",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-redux": "^5.0.1",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.7.4",
     "rx": "^4.1.0"
   }
 }
