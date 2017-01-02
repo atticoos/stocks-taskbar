@@ -2,6 +2,8 @@ import {Menu, Tray} from 'electron';
 import path from 'path';
 import stockSource from './stocks';
 import {createTickerImage} from './graphicGenerator';
+import {ipcMain} from 'electron';
+import * as ActionTypes from './window/actions/types';
 
 var mockData = [
   {Symbol: 'AAPL', ChangePercent: 3.02},
@@ -10,14 +12,16 @@ var mockData = [
   {Symbol: 'AMD', ChangePercent: -2.45}
 ];
 
-export function buildTray () {
+export function buildTray (tray) {
   console.log('building tray')
+  var animateFrames = createTrayFrameAnimator(tray, FPS);
+
   var icon = path.normalize(path.join(__dirname, 'icon.png'));
-  var tray = new Tray(icon);
-  //var tray = new Tray(createTickerImage(generateTickerText(mockData)));
   tray.setToolTip('Stock Ticker');
 
-  tray.setContextMenu(buildStockMenu(mockData));
+  generateFrames(mockData).then(frames => animateFrames(frames));
+
+  //tray.setContextMenu(buildStockMenu(mockData));
 
   /*
   stockSource.subscribe(
@@ -28,7 +32,32 @@ export function buildTray () {
     );
     */
 
-  rotateTrayIcon(tray, mockData);
+  //var stopRotation = rotateTrayIcon(tray, mockData);
+  ipcMain.on('renderer-action', (event, action) => {
+    console.log('action', action.type)
+    switch (action.type) {
+      case ActionTypes.ADD_STOCK_SYMBOL:
+        var mockItem = {
+          Symbol: action.symbol,
+          ChangePercent: Math.random() * 10
+        };
+        mockData.push(mockItem);
+        generateFrames(mockData).then(frames => animateFrames(frames));
+        break;
+      case ActionTypes.REMOVE_STOCK_SYMBOL:
+        let match = mockData.find(item => item.Symbol === action.symbol);
+        if (!match) {
+          break;
+        }
+        let index = mockData.indexOf(match);
+        if (index === -1) {
+          break;
+        }
+        mockData.splice(index, 1);
+        generateFrames(mockData).then(frames => animateFrames(frames));
+        break;
+    }
+  });
 
   return tray;
 }
@@ -39,23 +68,65 @@ function generateTickerText (quotes) {
     .join('  ');
 }
 
+const MAX_FRAMES = 200;
+const FRAME_CHUNK_SIZE = 20;
+const FPS = 40;
+
+function generateFrames (mockData) {
+  return new Promise(resolve => {
+    function recurse (frames = []) {
+      if (frames.length >= MAX_FRAMES) {
+        return resolve(frames);
+      }
+      setImmediate(() => {
+        var frameChunks = [];
+        console.log('building batch', frames.length);
+        for (let i = 0; i < FRAME_CHUNK_SIZE; i++) {
+          frameChunks.push(createTickerImage(mockData, frames.length + i));
+        }
+        recurse(frames.concat(frameChunks));
+      });
+    }
+    recurse();
+  });
+}
+
+function createTrayFrameAnimator (tray, fps) {
+  var interval;
+  var position = 0;
+  return function animateTrayFrames (frames) {
+    clearInterval(interval);
+    interval = setInterval(() => {
+      tray.setImage(frames[position]);
+      if (position >= MAX_FRAMES - 1) {
+        position = 0;
+      } else {
+        position++;
+      }
+    }, fps);
+  }
+}
+
 function rotateTrayIcon (tray, mockData) {
   var position = 0;
-  var text = generateTickerText(mockData);
-  var frames = [];
-  for (let i = 0; i < 202; i++) {
-    frames.push(createTickerImage(mockData, i));
+  var interval;
+
+  generateFrames(mockData).then(frames => {
+    interval = setInterval(() => {
+      position += 1;
+      tray.setImage(frames[position]);
+
+      if (position >= MAX_FRAMES - 1) {
+        position = 0;
+      }
+    }, FPS);
+  });
+
+
+  return () => {
+    console.log('clearing interval', interval);
+    clearInterval(interval);
   }
-
-  var interval = setInterval(() => {
-    position += 1;
-    //tray.setImage(createTickerImage(text, position));
-    tray.setImage(frames[position]);
-
-    if (position > 200) {
-      position = 0;
-    }
-  }, 40);
 }
 
 function buildStockMenu (stocks) {

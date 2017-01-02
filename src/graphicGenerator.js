@@ -52,7 +52,7 @@ function createCanvasFromData (quotes) {
     drawText(ctx, item.percent.value, offset);
 
     offset += item.percent.size + SPACE + SPACE;
-    console.log('buliding at', offset)
+    //console.log('buliding at', offset)
   });
 
   return canvas;
