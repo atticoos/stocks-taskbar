@@ -2,6 +2,8 @@ import {Menu, Tray} from 'electron';
 import path from 'path';
 import stockSource from './stocks';
 import {createTickerImage} from './graphicGenerator';
+import {ipcMain} from 'electron';
+import * as ActionTypes from './window/actions/types';
 
 var mockData = [
   {Symbol: 'AAPL', ChangePercent: 3.02},
@@ -26,7 +28,34 @@ export function buildTray (tray) {
     );
     */
 
-  rotateTrayIcon(tray, mockData);
+  var interval = rotateTrayIcon(tray, mockData);
+  ipcMain.on('renderer-action', (event, action) => {
+    console.log('action', action.type)
+    switch (action.type) {
+      case ActionTypes.ADD_STOCK_SYMBOL:
+        var mockItem = {
+          Symbol: action.symbol,
+          ChangePercent: Math.random() * 10
+        };
+        mockData.push(mockItem);
+        clearInterval(interval);
+        interval = rotateTrayIcon(tray, mockData);
+        break;
+      case ActionTypes.REMOVE_STOCK_SYMBOL:
+        let match = mockData.find(item => item.Symbol === action.symbol);
+        if (!match) {
+          break;
+        }
+        let index = mockData.indexOf(match);
+        if (index === -1) {
+          break;
+        }
+        mockData.splice(index, 1);
+        clearInterval(interval);
+        interval = rotateTrayIcon(tray, mockData);
+        break;
+    }
+  });
 
   return tray;
 }
@@ -54,6 +83,8 @@ function rotateTrayIcon (tray, mockData) {
       position = 0;
     }
   }, 40);
+
+  return interval;
 }
 
 function buildStockMenu (stocks) {
