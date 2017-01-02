@@ -5,4 +5,5 @@ require('babel-core/register')({
     'transform-object-rest-spread'
   ]
 });
+require('babel-polyfill');
 require('./app');
