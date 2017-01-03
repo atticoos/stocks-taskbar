@@ -1,6 +1,8 @@
 .stock-list-item {
   border-bottom: 1px solid gray;
   padding: 15px;
+  user-select: none;
+  cursor: pointer;
 
   .row-heading {
     display: flex;
@@ -41,5 +43,11 @@
       }
     }
   }
+  .stock-details {
+    font-size: 14px;
+    margin: 10px 0 0;
+    td {
+      border: none;
+    }
+  }
 }
-
