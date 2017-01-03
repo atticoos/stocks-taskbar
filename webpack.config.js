@@ -2,10 +2,10 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    app: ['webpack/hot/dev-server', './src/window/index.js']
+    app: ['./src/window/index.js']
   },
   output: {
-    path: './public/built',
+    path: __dirname + '/dist',
     filename: 'bundle.js',
     publicPath: 'http://localhost:8080/built',
     libraryTarget: 'commonjs2'
@@ -18,16 +18,11 @@ module.exports = {
     loaders: [
       {
         test: /\.js?$/,
-        loader: 'babel-loader',
+        loaders: [
+          'react-hot',
+          'babel-loader?presets[]=es2015,presets[]=babel-preset-react,presets[]=react&plugins[]=syntax-object-rest-spread,plugins[]=transform-object-rest-spread,plugins[]=transform-class-properties'
+        ],
         exclude: /node_modules/,
-        query: {
-          presets: ['es2015', 'babel-preset-react', 'react'],
-          plugins: [
-            'syntax-object-rest-spread',
-            'transform-object-rest-spread',
-            'transform-class-properties'
-          ]
-        }
       },
       {test: /\.css$/, loader: 'style-loader!css-loader'},
       {test: /\.less$/, loader: 'style-loader!css-loader!less-loader'}
