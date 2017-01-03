@@ -27,3 +27,16 @@ export function quoteData (quotes) {
     quotes
   };
 }
+
+export function expandDetails (symbol) {
+  return {
+    type: Types.EXPAND_STOCK_DETAILS,
+    symbol
+  };
+}
+
+export function collapseDetails (symbol) {
+  return {
+    type: Types.COLLAPSE_STOCK_DETAILS
+  };
+}

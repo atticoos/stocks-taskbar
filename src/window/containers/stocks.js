@@ -24,6 +24,14 @@ class Stocks extends React.Component {
             <StockListItem
               key={quote.symbol}
               stock={quote}
+              expanded={quote.symbol === this.props.expandedSymbol}
+              onClick={() => {
+                if (quote.symbol === this.props.expandedSymbol) {
+                  this.props.stockActions.collapseDetails();
+                } else {
+                  this.props.stockActions.expandDetails(quote.symbol)
+                }
+              }}
               onRemove={() => this.props.stockActions.removeStock(quote.symbol)}
             />
           ))}
