@@ -1,7 +1,7 @@
 import * as Types from '../actions/types';
 
 const initialState = {
-  tickerWidth: 200
+  tickerWidth: 300
 };
 
 export default function settingsReducer (state = initialState, action = {}) {

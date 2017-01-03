@@ -38,7 +38,7 @@ export function buildTray (menubar) {
     );
   */
 
-  var tickerWidth = 200;
+  var tickerWidth = 300;
 
   ipcMain.on('renderer-action', (event, action) => {
     console.log('action', action.type)
