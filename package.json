@@ -42,10 +42,12 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "canvas": "^1.6.2",
+    "chart.js": "^2.4.0",
     "menubar": "^5.2.0",
     "node-fetch": "^1.6.3",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
+    "react-chartjs-2": "^1.6.2",
     "react-dom": "^15.4.1",
     "react-icons": "^2.2.3",
     "react-redux": "^5.0.1",

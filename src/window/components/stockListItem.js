@@ -6,8 +6,51 @@ import {
   Label,
   Table
 } from 'react-bootstrap';
+import {Line} from 'react-chartjs-2';
 require('../styles/stockListItem.less');
 
+// console.log('test', Charts)
+
+const data = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    legend: {
+      display: false
+    },
+  datasets: [
+    {
+      legend: {
+        display: false
+      },
+      label: '',
+      // label: 'My First dataset',
+      fill: false,
+      lineTension: 0.1,
+      backgroundColor: 'rgba(75,192,192,0.4)',
+      backgroundColor: 'rgba(200,200,200,0.4)',
+      // borderColor: 'rgba(75,192,192,1)',
+      backgroundColor: 'rgba(200,200,200,0.4)',
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: 'rgba(75,192,192,1)',
+      // pointBackgroundColor: '#fff',
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+      pointHoverBorderColor: 'rgba(220,220,220,1)',
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+      data: [65, 59, 80, 81, 56, 55, 40]
+    }
+  ]
+};
+var chartOptions = {
+  legend: {
+    display: false
+  }
+}
 export default class StockListItem extends React.Component {
   constructor (props) {
     super(props);
@@ -35,15 +78,19 @@ export default class StockListItem extends React.Component {
           <IconClose color="lightgray" onClick={this.onRemove} />
         </div>
         {!!this.props.stock.symbol && this.props.expanded &&
-          <StockDetails
-            open={111.35}
-            close={112.15}
-            low={110.23}
-            cap="58.2B"
-            pe="55.7B"
-            div="0.52%"
-          />
+          <div>
+            <StockDetails
+              open={111.35}
+              close={112.15}
+              low={110.23}
+              cap="58.2B"
+              pe="55.7B"
+              div="0.52%"
+            />
+            <Line data={data} options={chartOptions} />
+          </div>
         }
+
       </div>
     );
   }
