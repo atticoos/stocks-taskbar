@@ -3,8 +3,10 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import selector from '../selectors/stockScreen';
 import StockListItem from '../components/stockListItem';
+import CogIcon from 'react-icons/lib/fa/cog';
 import * as StockActions from '../actions/stocks';
 import {
+  Button,
   Form,
   FormControl,
   FormGroup
@@ -32,6 +34,12 @@ class Stocks extends React.Component {
             value={this.props.newStock}
             onChange={event => this.props.stockActions.newStockTextChanged(event.target.value)}
           />
+        <Button
+            className="settings-button"
+            onClick={() => {}}
+          >
+            <CogIcon color="lightgray" />
+          </Button>
           <button
             type="submit"
             onClick={() => this.props.stockActions.addStock(this.props.newStock)}
