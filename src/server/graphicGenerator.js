@@ -83,8 +83,8 @@ function drawDirection (ctx, position, up) {
   ctx.fill();
 }
 
-export function createTickerImage (data, offset = 0) {
-  var canvas = new Canvas(200, 20);
+export function createTickerImage (data, offset = 0, width = 200) {
+  var canvas = new Canvas(width, 20);
   var ctx = canvas.getContext('2d');
   ctx.font = font;
 
@@ -92,10 +92,5 @@ export function createTickerImage (data, offset = 0) {
   img.src = createCanvasFromData(data).toBuffer();
   ctx.drawImage(img, -offset, 0, img.width, 20);
 
-  return nativeImage.createFromBuffer(canvas.toBuffer(), {
-    width: 200,
-    height: 20,
-    scaleFactor: 1.0
-  });
-
+  return nativeImage.createFromBuffer(canvas.toBuffer());
 }
