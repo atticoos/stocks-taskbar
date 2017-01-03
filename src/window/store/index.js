@@ -6,7 +6,8 @@ import * as ActionTypes from '../actions/types';
 
 const ipcSenderMiddleware = createIpcSenderMiddleware(
   ActionTypes.ADD_STOCK_SYMBOL,
-  ActionTypes.REMOVE_STOCK_SYMBOL
+  ActionTypes.REMOVE_STOCK_SYMBOL,
+  ActionTypes.TICKER_WIDTH
 );
 
 const createStoreWithMiddleware = applyMiddleware(

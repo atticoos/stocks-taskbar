@@ -38,13 +38,14 @@ export function buildTray (menubar) {
     );
   */
 
+  var tickerWidth = 200;
+
   ipcMain.on('renderer-action', (event, action) => {
     console.log('action', action.type)
     switch (action.type) {
       case ActionTypes.ADD_STOCK_SYMBOL:
         var mockItem = generateQuote(action.symbol);
         mockData.push(mockItem);
-        generateFrames(mockData).then(frames => animateFrames(frames));
         event.sender.send('main-action', StockActions.quoteData(mockData));
         break;
       case ActionTypes.REMOVE_STOCK_SYMBOL:
@@ -57,9 +58,12 @@ export function buildTray (menubar) {
           break;
         }
         mockData.splice(index, 1);
-        generateFrames(mockData).then(frames => animateFrames(frames));
+        break;
+      case ActionTypes.TICKER_WIDTH:
+        tickerWidth = action.width;
         break;
     }
+    generateFrames(mockData, tickerWidth).then(frames => animateFrames(frames));
   });
 
   return tray;
@@ -76,7 +80,7 @@ function generateQuote (symbol) {
   };
 }
 
-function generateFrames (mockData) {
+function generateFrames (mockData, width) {
   return new Promise(resolve => {
     function recurse (frames = []) {
       if (frames.length >= MAX_FRAMES) {
@@ -86,7 +90,7 @@ function generateFrames (mockData) {
       // Generate each image on its own event loop
       setImmediate(() => {
         console.log('building item', frames.length);
-        recurse(frames.concat(createTickerImage(mockData, frames.length)));
+        recurse(frames.concat(createTickerImage(mockData, frames.length, width)));
       });
     }
     recurse();
