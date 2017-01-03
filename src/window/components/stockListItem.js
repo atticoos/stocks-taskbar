@@ -44,10 +44,10 @@ function ChangePercent ({percent}) {
   var positive = percent > 0;
 
   return (
-    <Label cssClass="change-percent" bsStyle={positive ? 'success' : 'danger'}>
-      {positive && <IconPlus cssClass="positive" />}
-      {!positive && <IconMinus cssClass="negiatve" />}
-      <span cssClass="change">{Math.abs(change).toFixed(2)}%</span>
+    <Label className="change-percent" bsStyle={positive ? 'success' : 'danger'}>
+      {positive && <IconPlus className="positive" />}
+      {!positive && <IconMinus className="negiatve" />}
+      <span className="change">{Math.abs(change).toFixed(2)}%</span>
     </Label>
   );
 }
