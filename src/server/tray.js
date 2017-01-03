@@ -3,8 +3,8 @@ import {createTickerImage} from './graphicGenerator';
 import {ipcMain} from 'electron';
 import path from 'path';
 import stockSource from './stocks';
-import * as ActionTypes from './window/actions/types';
-import * as StockActions from './window/actions/stocks';
+import * as ActionTypes from '../window/actions/types';
+import * as StockActions from '../window/actions/stocks';
 
 const MAX_FRAMES = 200;
 const FPS = 40;
