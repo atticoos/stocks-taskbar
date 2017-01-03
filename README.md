@@ -3,7 +3,7 @@
 A mini stock ticker that docks within your taskbar
 
 <img width="300" alt="Stock Ticker Taskbar"
-src="https://cloud.githubusercontent.com/assets/656630/21600137/a642faae-d145-11e6-99b3-6269b08a699f.gif" />
+src="https://cloud.githubusercontent.com/assets/656630/21601000/823339aa-d152-11e6-9e24-7bb5557183f3.gif" />
 
 ## Challenge
 
