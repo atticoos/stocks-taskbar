@@ -7,7 +7,6 @@ import * as ActionTypes from './window/actions/types';
 import * as StockActions from './window/actions/stocks';
 
 const MAX_FRAMES = 200;
-const FRAME_CHUNK_SIZE = 10;
 const FPS = 40;
 
 var mockData = [
@@ -83,14 +82,12 @@ function generateFrames (mockData) {
       if (frames.length >= MAX_FRAMES) {
         return resolve(frames);
       }
-      setTimeout(() => {
-        var frameChunks = [];
-        console.log('building batch', frames.length);
-        for (let i = 0; i < FRAME_CHUNK_SIZE; i++) {
-          frameChunks.push(createTickerImage(mockData, frames.length + i));
-        }
-        recurse(frames.concat(frameChunks));
-      }, 10);
+
+      // Generate each image on its own event loop
+      setImmediate(() => {
+        console.log('building item', frames.length);
+        recurse(frames.concat(createTickerImage(mockData, frames.length)));
+      });
     }
     recurse();
   });

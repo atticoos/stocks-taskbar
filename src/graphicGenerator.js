@@ -83,14 +83,6 @@ function drawDirection (ctx, position, up) {
   ctx.fill();
 }
 
-export function createTextCanvas (text) {
-  var canvas = new Canvas(measureText(text).width, 20);
-  var ctx = canvas.getContext('2d');
-  ctx.font = font;
-  ctx.fillText(text, 0, 15);
-  return canvas;
-}
-
 export function createTickerImage (data, offset = 0) {
   var canvas = new Canvas(200, 20);
   var ctx = canvas.getContext('2d');
