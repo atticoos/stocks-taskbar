@@ -6,21 +6,15 @@ import {
   Label,
   Table
 } from 'react-bootstrap';
-import {Line} from 'react-chartjs-2';
+import LineChart from './chart';
 require('../styles/stockListItem.less');
 
 // console.log('test', Charts)
 
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    legend: {
-      display: false
-    },
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
   datasets: [
     {
-      legend: {
-        display: false
-      },
       label: '',
       // label: 'My First dataset',
       fill: false,
@@ -87,7 +81,7 @@ export default class StockListItem extends React.Component {
               pe="55.7B"
               div="0.52%"
             />
-            <Line data={data} options={chartOptions} />
+            <LineChart />
           </div>
         }
 
@@ -98,7 +92,7 @@ export default class StockListItem extends React.Component {
 
 function StockDetails (props) {
   return (
-    <Table className="stock-details" condensed>
+    <Table className="stock-details" condensed style={{marginBottom: 10}}>
       <tbody>
         <tr>
           <td>Open</td>

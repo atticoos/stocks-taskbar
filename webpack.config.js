@@ -24,7 +24,8 @@ module.exports = {
           presets: ['es2015', 'babel-preset-react', 'react'],
           plugins: [
             'syntax-object-rest-spread',
-            'transform-object-rest-spread'
+            'transform-object-rest-spread',
+            'transform-class-properties'
           ]
         }
       },
