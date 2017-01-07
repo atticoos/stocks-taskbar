@@ -50,4 +50,15 @@
       border: none;
     }
   }
+
+  .expandable {
+    -moz-transition-property: opacity;
+    -moz-transition-duration: 5s;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 5s;
+    opacity: 0;
+    &.in {
+      opacity: 1;
+    }
+  }
 }

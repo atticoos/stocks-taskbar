@@ -36,7 +36,7 @@ export default class StockListItem extends React.Component {
           <IconClose color="lightgray" onClick={this.onRemove} />
         </div>
         {!!this.props.stock.symbol && this.props.expanded &&
-          <div>
+          <div className="expandable in">
             <StockDetails
               open={111.35}
               close={112.15}
