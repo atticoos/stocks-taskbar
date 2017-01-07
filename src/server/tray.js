@@ -5,6 +5,10 @@ import path from 'path';
 import stockSource from './stocks';
 import * as ActionTypes from '../window/actions/types';
 import * as StockActions from '../window/actions/stocks';
+import createObservables from './observables';
+import createStore from './store';
+import 'object.observe';
+import Rx, {Observable} from 'rx/dist/rx.all';
 
 const MAX_FRAMES = 200;
 const FPS = 40;
@@ -19,52 +23,25 @@ var mockData = [
 export function buildTray (menubar) {
   const {tray} = menubar;
   var animateFrames = createTrayFrameAnimator(tray, FPS);
+  var store = createStore();
 
-  var icon = path.normalize(path.join(__dirname, 'icon.png'));
   tray.setToolTip('Stock Ticker');
+  const quotesChanged = store
+    .map(state => state.quotes)
+    .distinctUntilChanged();
 
-  generateFrames(mockData).then(frames => animateFrames(frames));
+  const tickerWidthChanged = store
+    .map(state => state.settings.tickerWidth)
+    .distinctUntilChanged();
 
-  menubar.on('after-create-window', () => {
-    menubar.window.quotes = mockData;
-  });
+  Observable.combineLatest(
+    quotesChanged.debounce(1000),
+    tickerWidthChanged,
+    (quotes, width) => [quotes, width]
+  )
+    .flatMap(([quotes, width]) => Observable.fromPromise(generateFrames(quotes, width)))
+    .subscribe(frames => animateFrames(frames));
 
-  /*
-  stockSource.subscribe(
-    data => {
-      var menuItems = buildStockMenu(data);
-      tray.setContextMenu(menuItems)
-    }
-    );
-  */
-
-  var tickerWidth = 300;
-
-  ipcMain.on('renderer-action', (event, action) => {
-    console.log('action', action.type)
-    switch (action.type) {
-      case ActionTypes.ADD_STOCK_SYMBOL:
-        var mockItem = generateQuote(action.symbol);
-        mockData.push(mockItem);
-        event.sender.send('main-action', StockActions.quoteData(mockData));
-        break;
-      case ActionTypes.REMOVE_STOCK_SYMBOL:
-        let match = mockData.find(item => item.Symbol === action.symbol);
-        if (!match) {
-          break;
-        }
-        let index = mockData.indexOf(match);
-        if (index === -1) {
-          break;
-        }
-        mockData.splice(index, 1);
-        break;
-      case ActionTypes.TICKER_WIDTH:
-        tickerWidth = action.width;
-        break;
-    }
-    generateFrames(mockData, tickerWidth).then(frames => animateFrames(frames));
-  });
 
   return tray;
 }
