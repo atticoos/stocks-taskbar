@@ -1,8 +1,16 @@
 import * as ActionTypes from '../../window/actions/types';
 
-const addQuote = newQuote => quotes => quotes.concat(newQuote);
-const removeQuote = oldQuote => quotes => quotes.filter(quote => quote !== oldQuote);
+/**
+ * Reducer logic
+ */
+const Operations = {
+  addQuote: newQuote => quotes => quotes.concat(newQuote),
+  removeQuote: oldQuote => quotes => quotes.filter(quote => quote !== oldQuote)
+};
 
+/**
+ * Create bindings to incoming actions
+ */
 function createIntents (inputSource) {
   const added = inputSource
     .filter(action => action.type === ActionTypes.ADD_STOCK_SYMBOL)
@@ -15,10 +23,13 @@ function createIntents (inputSource) {
   return {added, removed};
 }
 
+/**
+ * Create reducers
+ */
 function createReducers (intents) {
   return [
-    intents.added.map(addQuote),
-    intents.removed.map(removeQuote)
+    intents.added.map(quote => Operations.addQuote(quote)),
+    intents.removed.map(quote => Operations.removeQuote(quote))
   ];
 }
 

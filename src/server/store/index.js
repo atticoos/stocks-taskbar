@@ -5,11 +5,14 @@ import createQuoteReducers from './quotes';
 import createTickerSettingsReducers from './tickerSettings';
 
 export default function createApplicationStore () {
+  // Bind to actions dispatched from the React UI side
   const actionSource = Rx.Observable.fromEvent(ipcMain, 'renderer-action', (event, action) => action);
 
+  // Create reducers
   const quotes = combineReducers(createQuoteReducers(actionSource), ['AMD']);
   const tickerSettings = combineReducers(createTickerSettingsReducers(actionSource), 300);
 
+  // Combine reducers into a tree
   return combineStores({
     quotes,
     settings: combineStores({
@@ -17,12 +20,6 @@ export default function createApplicationStore () {
     })
   })
   .skip(1)
-  // .startWith({
-  //   quotes: [],
-  //   settings: {
-  //     tickerWidth: 300
-  //   }
-  // })
 }
 
 function combineReducers (reducers, initialState = []) {
